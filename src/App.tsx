@@ -1,35 +1,36 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useQuery } from "@tanstack/react-query";
+import { Button } from "./components/ui/button";
+import { Loader, RefreshCwIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
+
+const getCryptoNumber = async (): Promise<number> => {
+  const url: string =
+    "https://www.random.org/integers/?num=1&min=1&max=500&col=1&base=10&format=plain&rnd=new";
+  const resp = await fetch(url).then((resp) => resp.json());
+
+  return Number(resp);
+};
 
 function App() {
-  const [count, setCount] = useState(0)
+  const { data, error, isFetching, refetch } = useQuery({
+    queryKey: ["randomNumber"],
+    queryFn: getCryptoNumber,
+  });
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="min-h-screen bg-background flex flex-col justify-start items-center gap-y-10 pt-20">
+      <h1 className="text-4xl font-extrabold text-indigo-500 text-center">
+        {isFetching ? <Loader className="animate-spin" /> : <>Número: {data}</>}
+      </h1>
+
+      {error && <h3>{JSON.stringify(error)}</h3>}
+      {/* The rest of your application */}
+      <Button onClick={() => refetch()}>
+        <RefreshCwIcon className={cn(isFetching && "animate-spin")} />
+        Nuevo número
+      </Button>
+    </div>
+  );
 }
 
-export default App
+export default App;
