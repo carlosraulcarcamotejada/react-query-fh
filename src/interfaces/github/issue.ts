@@ -107,8 +107,9 @@ interface Reactions {
 }
 
 const State = {
+  All: "all",
+  Close: "closed",
   Open: "open",
-  Close: "close",
 } as const;
 
 type State = (typeof State)[keyof typeof State];

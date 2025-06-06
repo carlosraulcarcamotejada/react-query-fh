@@ -133,30 +133,7 @@ const navbarMenuToggleVariants = cva(
   `
 );
 
-const navbarMenuVariants = cva(
-  `
-  flex
-  flex-col
-  items-start
-  justify-center
-  h-full 
-  text-sm
-  `
-);
 
-const navbarMenuItemVariants = cva(
-  `
-  text-md 
-  font-semibold 
-  my-1 text-start 
-  w-full
-  flex 
-  h-10
-  justify-start 
-  items-center
-   active:bg-gray-200
-  `
-);
 
 interface NavBarContextProps {
   isOpen: boolean;
@@ -255,6 +232,34 @@ function NavbarMenuToggle({
     </SheetTrigger>
   );
 }
+
+const navbarMenuVariants = cva(
+  `
+  flex
+  flex-col
+  items-start
+  justify-center
+  h-full 
+  text-sm
+  px-2
+  `
+);
+
+const navbarMenuItemVariants = cva(
+  `
+  text-md 
+  font-semibold 
+  my-1 text-start 
+  w-full
+  flex 
+  h-10
+  justify-start 
+  items-center
+  rounded-md
+  overflow-hidden
+   active:bg-gray-200
+  `
+);
 
 function NavbarMenu({
   className,

@@ -1,4 +1,4 @@
-import type { Issue } from "@/interfaces/issue";
+import type { Issue } from "@/interfaces/github/issue";
 import { cn } from "@/lib/utils";
 import * as React from "react";
 import ReactMarkdown from "react-markdown";

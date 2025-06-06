@@ -11,7 +11,7 @@ import { Navigate, NavLink, Route, Routes } from "react-router";
 import { cn } from "@/lib/utils";
 import { ListView } from "@/pages/list-view";
 import { IssueView } from "@/pages/issue-view";
-import { GitLayout } from "@/components/layouts/git-layout";
+import { MainLayout } from "@/components/layouts/main-layout";
 import { NotFoundView } from "@/pages/not-found-view";
 import { RandomNumberView } from "@/pages/random-number-view";
 import logo from "@/assets/tanstack.png";
@@ -78,7 +78,7 @@ function App() {
                 className={({ isActive }) =>
                   cn(
                     "px-2 size-full flex items-center justify-start",
-                    isActive && "text-gray-700 bg-neutral-200",
+                    isActive && "bg-neutral-100"
                   )
                 }
                 to={to}
@@ -91,7 +91,7 @@ function App() {
       </NavBar>
       {/* Router */}
       <Routes>
-        <Route path="issues" element={<GitLayout />}>
+        <Route path="issues" element={<MainLayout />}>
           <Route index path="list" element={<ListView />} />
           <Route path="issue/:issueNumber" element={<IssueView />} />
           <Route path="*" element={<Navigate to="list" />} />

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import type { Issue } from "@/interfaces/issue";
+import type { Issue } from "@/interfaces/github/issue";
 import { getIssue } from "@/actions/github/get-issue";
 import { getIssueComments } from "@/actions/github/get-issue-comments";
 
@@ -14,7 +14,7 @@ const useIssue = ({ issueNumber }: { issueNumber: number }) => {
     queryKey: ["issue", issueNumber, "comments"],
     queryFn: () => getIssueComments({ issueNumber }),
     staleTime: 1000 * 60,
-    // enabled: issueQuery.data !== undefined  //para habilitarlo secuencialmente
+    // enabled: issueQuery.data !== undefined  // Para habilitarlo secuencialmente
   });
 
   return { issueQuery, issueCommentsQuery };
