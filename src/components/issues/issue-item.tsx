@@ -1,12 +1,13 @@
 import * as React from "react";
 import { CheckCircleIcon, InfoIcon, MessagesSquareIcon } from "lucide-react";
 import { NavLink } from "react-router";
-import { cn } from "@/lib/utils";
 import { State, type Issue } from "@/interfaces/github/issue";
 import { useQueryClient } from "@tanstack/react-query";
 import { getIssue } from "@/actions/github/get-issue";
 import { Badge } from "../ui/badge";
 import { timeSince } from "@/lib/time-since";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { cn } from "@/lib/utils";
 
 function IssueItem({
   className,
@@ -61,11 +62,15 @@ function IssueItem({
         </div>
       </div>
 
-      <img
-        src={issue.user.avatar_url}
-        alt="User Avatar"
-        className="w-8 h-8 rounded-full"
-      />
+      <Avatar>
+        <AvatarImage src={issue.user.avatar_url} alt="User Avatar" />
+        <AvatarFallback>
+          {issue.user.login
+            .split(" ")
+            .map((name) => name[0].toUpperCase())
+            .join("")}
+        </AvatarFallback>
+      </Avatar>
       <div className="flex flex-col mx-2 items-center">
         <MessagesSquareIcon size={30} className="min-w-5" color="gray" />
         <span className="px-4 text-gray-400">{issue.comments}</span>

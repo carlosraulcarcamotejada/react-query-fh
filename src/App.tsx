@@ -12,9 +12,9 @@ import { cn } from "@/lib/utils";
 import { ListView } from "@/pages/list-view";
 import { IssueView } from "@/pages/issue-view";
 import { MainLayout } from "@/components/layouts/main-layout";
-import { NotFoundView } from "@/pages/not-found-view";
 import { RandomNumberView } from "@/pages/random-number-view";
 import logo from "@/assets/tanstack.png";
+import { NotFoundView } from "@/pages/not-found-view";
 
 function App() {
   interface Path {
@@ -39,7 +39,7 @@ function App() {
   return (
     <>
       {/* Navbar */}
-      <NavBar>
+      <NavBar isBlurred isBordered hasShadow={false}>
         {/* Content */}
         <NavbarContent>
           <NavbarMenuToggle className="lg:hidden" />
@@ -70,17 +70,12 @@ function App() {
         </NavbarContent>
         {/* Content */}
 
-        {/* Menu */}
+        {/* Menu Floating Window */}
         <NavbarMenu side="left">
           {menuItems.map(({ id, name, to }) => (
-            <NavbarMenuItem asChild={false} key={id}>
+            <NavbarMenuItem key={id}>
               <NavLink
-                className={({ isActive }) =>
-                  cn(
-                    "px-2 size-full flex items-center justify-start",
-                    isActive && "bg-neutral-100"
-                  )
-                }
+                className={({ isActive }) => cn(isActive && "bg-neutral-100")}
                 to={to}
               >
                 {name}
@@ -92,7 +87,8 @@ function App() {
       {/* Router */}
       <Routes>
         <Route path="issues" element={<MainLayout />}>
-          <Route index path="list" element={<ListView />} />
+          <Route index element={<Navigate to="list" />} />
+          <Route path="list" element={<ListView />} />
           <Route path="issue/:issueNumber" element={<IssueView />} />
           <Route path="*" element={<Navigate to="list" />} />
         </Route>

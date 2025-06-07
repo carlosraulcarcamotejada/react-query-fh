@@ -19,7 +19,7 @@ import type {
 
 const navBarVariants = cva(
   `
-  bg-white
+  
   flex
   h-14
   items-center
@@ -37,8 +37,12 @@ const navBarVariants = cva(
         sticky: "fixed top-0",
       },
       isBordered: {
-        true: "border-b",
+        true: "border-b border-gray-200",
         false: "",
+      },
+      isBlurred: {
+        true: "bg-white/90 backdrop-blur-sm",
+        false: "bg-white",
       },
       hasShadow: {
         true: "shadow-md",
@@ -46,9 +50,10 @@ const navBarVariants = cva(
       },
     },
     defaultVariants: {
-      position: "sticky",
-      isBordered: false,
       hasShadow: true,
+      isBlurred: false,
+      isBordered: false,
+      position: "sticky",
     },
   }
 );
@@ -83,10 +88,10 @@ const navbarContentVariants = cva(
 
 const navbarItemVariants = cva(
   `
-  font-semibold 
-  text-md 
-  hover:underline 
-  underline-offset-2
+  [&_a]:font-semibold 
+  [&_a]:text-md 
+  [&_a]:hover:underline 
+  [&_a]:underline-offset-4
   `,
   {
     variants: {
@@ -133,8 +138,6 @@ const navbarMenuToggleVariants = cva(
   `
 );
 
-
-
 interface NavBarContextProps {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -148,6 +151,7 @@ const NavBarContext = React.createContext<NavBarContextProps>({
 function NavBar({
   className,
   hasShadow,
+  isBlurred,
   isBordered,
   position,
   ...props
@@ -158,7 +162,7 @@ function NavBar({
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <nav
           className={cn(
-            navBarVariants({ hasShadow, isBordered, position }),
+            navBarVariants({ hasShadow, isBordered, position, isBlurred }),
             className
           )}
           {...props}
@@ -258,6 +262,13 @@ const navbarMenuItemVariants = cva(
   rounded-md
   overflow-hidden
    active:bg-gray-200
+
+    
+  [&_a]:px-2
+  [&_a]:size-full
+  [&_a]:flex
+  [&_a]:items-center
+  [&_a]:justify-start
   `
 );
 
@@ -292,7 +303,7 @@ function NavbarMenu({
 }
 
 function NavbarMenuItem({
-  asChild = true,
+  asChild = false,
   className,
   ...rest
 }: React.ComponentProps<"div"> & { asChild?: boolean }) {

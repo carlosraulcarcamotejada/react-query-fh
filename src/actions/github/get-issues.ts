@@ -4,13 +4,15 @@ import { State, type Issue } from "@/interfaces/github/issue";
 
 interface GetIssuesOptions {
   state: State;
-  selectedLabels?: string[];
+  selectedLabels: string[];
+  page?: number;
 }
 
 async function getIssues(
-  { state, selectedLabels = [] }: GetIssuesOptions = {
-    state: "all",
+  { page, state, selectedLabels = [] }: GetIssuesOptions = {
+    page: 1,
     selectedLabels: [],
+    state: "all",
   }
 ): Promise<Issue[]> {
   try {
@@ -20,6 +22,9 @@ async function getIssues(
 
     selectedLabels.length > 0 &&
       params.append("labels", selectedLabels.join(","));
+
+    params.append("page", `${page}`);
+    params.append("per_page", "5");
 
     const { data } = await githubApi.get<Issue[]>("/issues", { params });
     return data;
